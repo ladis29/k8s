@@ -1,0 +1,37 @@
+---
+# Default packages
+default_packages:
+  - git-core
+  - openssh
+  - openssh-server
+  - yum-utils
+  - device-mapper-persistent-data
+  - lvm2
+  - ansible
+  - vim
+  - wget
+
+# Edition can be one of: 'ce' (Community Edition) or 'ee' (Enterprise Edition).
+docker_edition: 'ce'
+docker_package: "docker-{{ docker_edition }}"
+docker_package_state: present
+
+# Service options.
+docker_service_state: started
+docker_service_enabled: true
+docker_restart_handler_state: restarted
+
+# Docker Compose options.
+docker_install_compose: true
+docker_compose_version: "1.22.0"
+docker_compose_path: /usr/local/bin/docker-compose
+
+# Used only for RedHat/CentOS/Fedora.
+docker_yum_repo_url: https://download.docker.com/linux/centos/docker-{{ docker_edition }}.repo
+docker_yum_repo_enable_edge: 0
+docker_yum_repo_enable_test: 0
+
+# Main user
+admin_users:
+  - name: ladis
+    pub_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDC2GxOayQYLkmCtIh8FcjW9rXiiYeJWIazMCMM1FEa/8QAedh6RL9tq4GHMxilO982EL9TKdxBNvdP8AVaLT858zhvTYLzDYZacKKvhA1IR4F8aku/I9VT5BI/Sph0rm2dmyQdaI1m2JxXbpZvUCWp8NYy66eT1Qy/HzX8pElUTBD81LRWawLEiclC9lNMNnV/+iGn+3V66MAH++IMzSQyWN71Vh1LohB1RWF6RyNTj8aVCLH0a5bV1YulI8LXHsU0kl5uGAcvn58JZyAB8gmNbdBdos+F/TCUChIpwFX4M90sQj8+UcH16iMbDAdrZcLtsbLcMIOsaqW/nSvf8CGf ladis@lau.note"

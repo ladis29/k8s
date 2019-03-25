@@ -1,0 +1,24 @@
+---
+- name: Creating user
+  user:
+    name: "{{ user.name }}"
+    state: present
+    createhome: yes
+
+- name: Allowing added user to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: '{{ user.name }} ALL=(ALL) NOPASSWD: ALL'
+
+- name: Setting authorized ssh key taken from file
+  authorized_key:
+    user: "{{ user.name }}"
+    key: "{{ user.pub_key }}"
+    state: present
+
+- name: Ensure docker users are added to the docker group.
+  user:
+    name: "{{ user.name }}"
+    groups: docker
+    append: true

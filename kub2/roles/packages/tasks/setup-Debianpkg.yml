@@ -1,0 +1,10 @@
+---
+
+- name: Installing  Ansible Packages
+  apt:
+    name: '{{ ansible_packages }}'
+    state: latest
+    update_cache: yes
+
+- name: Updating Debian like System
+  raw: apt-get update

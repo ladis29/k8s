@@ -1,0 +1,20 @@
+---
+  #Playbook que rodará na criação da máquina virtual vagrant
+- hosts: kub2
+  remote_user: vagrant
+  become: yes
+  become_method: sudo
+  gather_facts: no
+
+  vars_files:
+    ./roles/default/main.yml
+
+
+  roles:
+  - packages
+  - user
+  - ks8
+
+
+  handlers:
+  - include: roles/handlers/tasks/main.yml

@@ -1,0 +1,57 @@
+---
+- name: Disabling Setenforce
+  lineinfile:
+    path: /etc/selinux/config
+    regexp: '^SELINUX=enforcing'
+    line: 'SELINUX=disabled'
+
+- name: Enable the br_netfilter module for cluster communication.
+  modprobe:
+    name: br_netfilter
+    state: present
+
+- name: Setting nf-iptables
+  become: yes
+  command: echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
+
+- name: Disable swap
+  command: swapoff -a
+
+- name: Remove swapfile from /etc/fstab
+  mount:
+    name: swap
+    fstype: swap
+    state: absent
+
+- name: Copying K8s repo
+  template:
+    src: kubernetes.repo.j2
+    dest: /etc/yum.repos.d/kubernetes.repo
+    owner: root
+    group: root
+    mode: 0644
+
+#- name: Installing kubernetes-cni
+#  yum:
+#    name: kubernetes-cni
+#    state: present
+#    update_cache: yes
+
+- name: Installing Kubelet
+  yum:
+    name: kubelet
+    state: present
+    update_cache: yes
+  notify: Restart_Kubelet
+
+- name: Installing Kubeadm
+  yum:
+    name: kubeadm
+    state: present
+    update_cache: yes
+
+- name: Installing Kubectl
+  yum:
+    name: kubectl
+    state: present
+    update_cache: yes

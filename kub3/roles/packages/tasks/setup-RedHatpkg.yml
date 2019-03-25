@@ -1,0 +1,10 @@
+---
+
+- name: Installing  Ansible Packages
+  yum:
+    name: '{{ ansible_packages }}'
+    state: latest
+    update_cache: yes
+
+- name: Updating RedHat like System
+  raw: yum update

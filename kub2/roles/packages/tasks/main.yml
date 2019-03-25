@@ -1,0 +1,16 @@
+--- # Install some packages according to ansible_os_family
+
+- name: Installing Python Minimal and Ansible
+  raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+  ignore_errors: True
+
+- name: Installing  Default Packages
+  apt:
+    name: '{{ default_packages }}'
+    state: latest
+    update_cache: yes
+
+- include_tasks: docker.yml
+
+- include_tasks: docker-compose.yml
+  

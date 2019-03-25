@@ -1,0 +1,5 @@
+---
+- include: user.yml
+  with_items: "{{ admin_users }}"
+  loop_control:
+    loop_var: user
